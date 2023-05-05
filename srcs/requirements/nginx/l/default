@@ -1,0 +1,36 @@
+events {}
+
+http {
+        server {
+                listen  80;
+                listen  [::]:80;
+                root    /var/www/html;
+                server_name     hkaddour.42.fr www.hkaddour.42.fr;
+
+                location /one {
+                        root /var/www/html;
+                }
+
+                location /two {
+                        alias    /var/www/html/one;
+                }
+                
+                location /try {
+                        root /var/www/html;
+                        try_files /try/gg.html /index.html = 404;
+                }
+
+                #Not working for me
+                #location /oui {
+                #        return 307 /try;
+                #}
+        }
+
+        server {
+                listen  80;
+                #listen  [::]:80;
+                server_name     42.45.69.33;
+                return 301 http://hkaddour.42.fr;
+        }
+
+}
