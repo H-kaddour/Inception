@@ -1,11 +1,41 @@
-version: "3.3"
+version: "3.8"
+#here i should make a volume of mariadb and pass it to the path
+#here i should make a docker network bridge
+volumes:
+  wp:
+networks:
+  Inception:
 services:
   nginx:
     build: ./requirements/nginx
     container_name: nginx
-    #volumes:
-    #  - ""
-    environment:
-      - hkaddour=hey
+    depends_on:
+      - wordpress
     ports:
       - "443:443"
+    volumes:
+      - wp:/var/www/html
+    restart: unless-stopped
+    networks:
+      - Inception
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    volumes:
+      - wp:/var/www/html
+    depends_on:
+      - mariadb
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - Inception
+  mariadb:
+    build: ./requirements/mariadb
+    container_name: mariadb
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - Inception
+    #here add volume
