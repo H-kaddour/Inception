@@ -1,14 +1,12 @@
-version: "3.8"
+version: "3.3"
 volumes:
   wordpress:
-    name: wordpress
     driver: local
     driver_opts:
       o: bind
       type: none
       device: /home/hkaddour/data/wordpress
   mariadb:
-    name: mariadb
     driver: local
     driver_opts:
       o: bind
@@ -17,7 +15,6 @@ volumes:
 
 networks:
   Inception:
-    name: Inception
     driver: bridge
 
 services:
